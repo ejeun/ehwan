@@ -110,9 +110,9 @@ export class cameraAPI extends React.Component {
   render(){
     return (
       <div className="container">
-        <h1>Camera API</h1>
+
         <section className="main-content">
-          <p>A demo of the Camera API, currently implemented in Firefox and Google Chrome on Android. Choose to take a picture with your device's camera and a preview will be shown through createObjectURL or a FileReader object (choosing local files supported too).</p>
+          <p>choose to take a picture with your device's camera (choosing local files supported too) and a preview will be shown </p>
 
           <p>
             <input
@@ -122,14 +122,17 @@ export class cameraAPI extends React.Component {
               onChange={this.handleChange}
             ></input>
           </p>
-          <h2>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
+          <span>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
             return (
               <div>{tag}</div>)
-          })}</h2>
+          })}</span>
 
-          <h3>Preview:</h3>
-          <p>
-            <img src={this.state.imgURL} alt="" id="show-picture"></img>
+          <p>Preview:
+            <img
+              src={this.state.imgURL}
+              alt=""
+              id="show-picture">
+            </img>
           </p>
 
           <p>{this.state.error}</p>

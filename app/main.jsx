@@ -6,14 +6,20 @@ import {Provider} from 'react-redux'
 
 import store from './store'
 
-import cameraAPI from './components/CameraAPI'
+import App from './components/App'
+import CameraAPI from './components/CameraAPI'
+import History from './components/History'
+import Buy from './components/Buy'
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={cameraAPI}>
-{/*        <IndexRedirect to="/products" />
-*/}   </Route>
+      <Route path="/" component={App}>
+        <IndexRedirect to="/submit" />
+      <Route path="/submit" component={CameraAPI} />
+      <Route path="/history" component={History} />
+      <Route path="/buy" component={Buy} />
+      </Route>
     </Router>
   </Provider>,
 

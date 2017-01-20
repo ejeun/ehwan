@@ -60,9 +60,21 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
+	var _App = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/App\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _App2 = _interopRequireDefault(_App);
+	
 	var _CameraAPI = __webpack_require__(298);
 	
 	var _CameraAPI2 = _interopRequireDefault(_CameraAPI);
+	
+	var _History = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/History\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _History2 = _interopRequireDefault(_History);
+	
+	var _Buy = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/Buy\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _Buy2 = _interopRequireDefault(_Buy);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -74,8 +86,11 @@
 	    { history: _reactRouter.browserHistory },
 	    _react2.default.createElement(
 	      _reactRouter.Route,
-	      { path: '/', component: _CameraAPI2.default },
-	      '   '
+	      { path: '/', component: _App2.default },
+	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/submit' }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/submit', component: _CameraAPI2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/history', component: _History2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/buy', component: _Buy2.default })
 	    )
 	  )
 	), document.getElementById('main'));
@@ -31178,17 +31193,12 @@
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Camera API'
-	        ),
-	        _react2.default.createElement(
 	          'section',
 	          { className: 'main-content' },
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            'A demo of the Camera API, currently implemented in Firefox and Google Chrome on Android. Choose to take a picture with your device\'s camera and a preview will be shown through createObjectURL or a FileReader object (choosing local files supported too).'
+	            'choose to take a picture with your device\'s camera (choosing local files supported too) and a preview will be shown '
 	          ),
 	          _react2.default.createElement(
 	            'p',
@@ -31201,7 +31211,7 @@
 	            })
 	          ),
 	          _react2.default.createElement(
-	            'h2',
+	            'span',
 	            null,
 	            'Tags: ',
 	            this.state.tags && this.state.tags.forEach(function (tag) {
@@ -31213,14 +31223,13 @@
 	            })
 	          ),
 	          _react2.default.createElement(
-	            'h3',
-	            null,
-	            'Preview:'
-	          ),
-	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement('img', { src: this.state.imgURL, alt: '', id: 'show-picture' })
+	            'Preview:',
+	            _react2.default.createElement('img', {
+	              src: this.state.imgURL,
+	              alt: '',
+	              id: 'show-picture' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
