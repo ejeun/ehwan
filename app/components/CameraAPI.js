@@ -16,17 +16,20 @@ export class cameraAPI extends React.Component {
     this.state = {
       files: {},
       imgURL: '',
+      tags: [],
+      error: '',
     }
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(e){
+    console.log(this.state)
+
     this.setState({
       files: e.target.files,
-      imgURL: '',
     })
-
-    console.log('added picture', this.state, e)
+    let concepts;
+    console.log('added picture', this.state)
 
     var files = e.target.files,
         file;
@@ -37,39 +40,48 @@ export class cameraAPI extends React.Component {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
 
-        // Create ObjectURL
-        this.setState({
-          imgURL: URL.createObjectURL(file)
-        })
-
         // console.log(this.state)
 
         // // Revoke ObjectURL after image has loaded
         // showPicture.onload = function() {
         //   URL.revokeObjectURL(imgURL);
         // };
+        // Create ObjectURL
+        this.setState({
+          imgURL: URL.createObjectURL(file)
+        })
 
-        app.models.predict(Clarifai.GENERAL_MODEL, this.state.imgURL).then(
-          function(response) {
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onload = function(){
 
-            const predictions = response.outputs[0].data.concepts
-            let tags = []
+          let imgBytes = fileReader.result.split(',')[1]
+          // console.log(imgBytes)
 
-            predictions.forEach(function(guess){
-              if (guess.value > 0.85){ tags.push(guess.name) }
-            })
+          app.models.predict(Clarifai.GENERAL_MODEL, imgBytes)
+          .then(
+            function(response) {
+              const predictions = response.outputs[0].data.concepts
+              let tags = []
 
-            // const data = response.outputs[0].data.concepts.slice(0, 5)
-            // console.log('predictions" ', predictions)
-            console.log(tags);
-          },
-          function(err) {
-            console.error(err);
-          }
-        );
+              predictions.forEach(function(guess){
+                if (guess.value > 0.85){ tags.push(guess.name) }
+              })
 
+              console.log('setting the state with ', tags)
+
+              this.setState({
+                imgURL: URL.createObjectURL(file),
+                tags: concepts,
+              })
+            },
+            function(err) {
+              console.error(err);
+            }
+          )
+        }
       }
-      catch (e) {
+      catch (err) {
         try {
           // Fallback if createObjectURL is not supported
           var fileReader = new FileReader();
@@ -80,17 +92,16 @@ export class cameraAPI extends React.Component {
           };
           fileReader.readAsDataURL(file);
         }
-        catch (e) {
+        catch (err) {
           // Display error message
-          var error = document.querySelector("#error");
-          if (error) {
-              error.innerHTML = "Neither createObjectURL or FileReader are supported";
-          }
+          this.setState({
+            error: 'Neither createObjectURL or FileReader are supported',
+          })
         }
       }
     }
-
   }
+
 
   render(){
     return (
@@ -107,18 +118,21 @@ export class cameraAPI extends React.Component {
               onChange={this.handleChange}
             ></input>
           </p>
+          <h2>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
+            return (
+                    <div>{tag}</div>)
+          })}</h2>
 
-          <h2>Preview:</h2>
+          <h3>Preview:</h3>
           <p>
             <img src={this.state.imgURL} alt="" id="show-picture"></img>
           </p>
 
-          <p id="error"></p>
+          <p>{this.state.error}</p>
         </section>
       </div>
     )
   }
-
 }
 
 const stateToProps = (state) => {return {}}

@@ -31077,7 +31077,9 @@
 	
 	    _this.state = {
 	      files: {},
-	      imgURL: ''
+	      imgURL: '',
+	      tags: [],
+	      error: ''
 	    };
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    return _this;
@@ -31086,12 +31088,15 @@
 	  _createClass(cameraAPI, [{
 	    key: 'handleChange',
 	    value: function handleChange(e) {
-	      this.setState({
-	        files: e.target.files,
-	        imgURL: ''
-	      });
+	      var _this2 = this;
 	
-	      console.log('added picture', this.state, e);
+	      console.log(this.state);
+	
+	      this.setState({
+	        files: e.target.files
+	      });
+	      var concepts = void 0;
+	      console.log('added picture', this.state);
 	
 	      var files = e.target.files,
 	          file;
@@ -31099,39 +31104,53 @@
 	        file = files[0];
 	
 	        try {
-	          // Get window.URL object
-	          var URL = window.URL || window.webkitURL;
+	          var URL;
 	
-	          // Create ObjectURL
-	          this.setState({
-	            imgURL: URL.createObjectURL(file)
-	          });
+	          (function () {
+	            // Get window.URL object
+	            URL = window.URL || window.webkitURL;
 	
-	          // console.log(this.state)
+	            // console.log(this.state)
 	
-	          // // Revoke ObjectURL after image has loaded
-	          // showPicture.onload = function() {
-	          //   URL.revokeObjectURL(imgURL);
-	          // };
+	            // // Revoke ObjectURL after image has loaded
+	            // showPicture.onload = function() {
+	            //   URL.revokeObjectURL(imgURL);
+	            // };
+	            // Create ObjectURL
 	
-	          app.models.predict(Clarifai.GENERAL_MODEL, this.state.imgURL).then(function (response) {
-	
-	            var predictions = response.outputs[0].data.concepts;
-	            var tags = [];
-	
-	            predictions.forEach(function (guess) {
-	              if (guess.value > 0.85) {
-	                tags.push(guess.name);
-	              }
+	            _this2.setState({
+	              imgURL: URL.createObjectURL(file)
 	            });
 	
-	            // const data = response.outputs[0].data.concepts.slice(0, 5)
-	            // console.log('predictions" ', predictions)
-	            console.log(tags);
-	          }, function (err) {
-	            console.error(err);
-	          });
-	        } catch (e) {
+	            var fileReader = new FileReader();
+	            fileReader.readAsDataURL(file);
+	            fileReader.onload = function () {
+	
+	              var imgBytes = fileReader.result.split(',')[1];
+	              // console.log(imgBytes)
+	
+	              app.models.predict(Clarifai.GENERAL_MODEL, imgBytes).then(function (response) {
+	                var predictions = response.outputs[0].data.concepts;
+	                var tags = [];
+	
+	                predictions.forEach(function (guess) {
+	                  if (guess.value > 0.85) {
+	                    tags.push(guess.name);
+	                  }
+	                });
+	
+	                console.log('setting the state with ', tags);
+	
+	                this.setState({
+	                  imgURL: URL.createObjectURL(file),
+	                  tags: concepts
+	                });
+	              }, function (err) {
+	                console.error(err);
+	              });
+	            };
+	          })();
+	        } catch (err) {
 	          try {
 	            // Fallback if createObjectURL is not supported
 	            var fileReader = new FileReader();
@@ -31141,12 +31160,11 @@
 	              });
 	            };
 	            fileReader.readAsDataURL(file);
-	          } catch (e) {
+	          } catch (err) {
 	            // Display error message
-	            var error = document.querySelector("#error");
-	            if (error) {
-	              error.innerHTML = "Neither createObjectURL or FileReader are supported";
-	            }
+	            this.setState({
+	              error: 'Neither createObjectURL or FileReader are supported'
+	            });
 	          }
 	        }
 	      }
@@ -31183,6 +31201,18 @@
 	          _react2.default.createElement(
 	            'h2',
 	            null,
+	            'Tags: ',
+	            this.state.tags && this.state.tags.forEach(function (tag) {
+	              return _react2.default.createElement(
+	                'div',
+	                null,
+	                tag
+	              );
+	            })
+	          ),
+	          _react2.default.createElement(
+	            'h3',
+	            null,
 	            'Preview:'
 	          ),
 	          _react2.default.createElement(
@@ -31190,7 +31220,11 @@
 	            null,
 	            _react2.default.createElement('img', { src: this.state.imgURL, alt: '', id: 'show-picture' })
 	          ),
-	          _react2.default.createElement('p', { id: 'error' })
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.error
+	          )
 	        )
 	      );
 	    }
@@ -32555,7 +32589,7 @@
 /* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
