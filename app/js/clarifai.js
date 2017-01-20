@@ -18,9 +18,10 @@ var app = new Clarifai.App(
 */
 
 // predict the contents of an image by passing in a url
-app.models.predict(Clarifai.GENERAL_MODEL, 'https://samples.clarifai.com/metro-north.jpg').then(
+app.models.predict(Clarifai.GENERAL_MODEL, 'http://localhost:8000/9de6a09b-abb1-4d67-94ca-f11d59ae505f').then(
   function(response) {
-    console.log(response.outputs);
+    const data = response.outputs[0].data.concepts.slice(0, 5)
+    console.log(data);
   },
   function(err) {
     console.error(err);
