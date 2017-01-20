@@ -11,7 +11,7 @@ const seedMail = () => db.Promise.map([
   {
     petId: 2,
     url: 'http://a9.vietbao.vn/images/vn901/the-gioi/11173656-3.jpg',
-    tags: [ 'tropical', 'water', 'travel', 'exotic', 'idyllic', 'summer', 'relaxation']
+    tags: ['food', 'domestic', 'people', 'one', 'table', 'dish', 'mammal']
   },
   {
     petId: 2,
@@ -21,7 +21,7 @@ const seedMail = () => db.Promise.map([
   {
     petId: 1,
     url: 'https://s-media-cache-ak0.pinimg.com/736x/32/3f/a0/323fa07a09bb272ac9dbeb135778ed3f.jpg',
-    tags: ['food', 'domestic', 'people', 'one', 'table', 'dish', 'mammal']
+    tags: [ 'tropical', 'water', 'travel', 'exotic', 'idyllic', 'summer', 'relaxation']
   }
 ], mail => db.model('mails').create(mail))
 
