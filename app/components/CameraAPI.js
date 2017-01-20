@@ -1,6 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+// Require the client
+var Clarifai = require('clarifai')
+// instantiate a new Clarifai app passing in your clientId and clientSecret
+var app = new Clarifai.App(
+  'T1yVBDD72ivYXvG5z9vRAOgVO6oTNe9GqrxOa_7a',
+  'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc'
+)
+
 export class cameraAPI extends React.Component {
 
   constructor(props){
@@ -9,13 +17,12 @@ export class cameraAPI extends React.Component {
       files: {},
       imgURL: '',
     }
-
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(e){
     this.setState({
-      files: e.target.value,
+      files: e.target.files,
       imgURL: '',
     })
 
@@ -25,6 +32,7 @@ export class cameraAPI extends React.Component {
         file;
     if (files && files.length > 0) {
       file = files[0];
+
       try {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
@@ -34,12 +42,32 @@ export class cameraAPI extends React.Component {
           imgURL: URL.createObjectURL(file)
         })
 
-        console.log(this.state)
+        // console.log(this.state)
 
-        // Revoke ObjectURL after image has loaded
+        // // Revoke ObjectURL after image has loaded
         // showPicture.onload = function() {
-        //     URL.revokeObjectURL(imgURL);
+        //   URL.revokeObjectURL(imgURL);
         // };
+
+        app.models.predict(Clarifai.GENERAL_MODEL, this.state.imgURL).then(
+          function(response) {
+
+            const predictions = response.outputs[0].data.concepts
+            let tags = []
+
+            predictions.forEach(function(guess){
+              if (guess.value > 0.85){ tags.push(guess.name) }
+            })
+
+            // const data = response.outputs[0].data.concepts.slice(0, 5)
+            // console.log('predictions" ', predictions)
+            console.log(tags);
+          },
+          function(err) {
+            console.error(err);
+          }
+        );
+
       }
       catch (e) {
         try {
