@@ -120,7 +120,7 @@ export class cameraAPI extends React.Component {
           </p>
           <h2>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
             return (
-                    <div>{tag}</div>)
+              <div>{tag}</div>)
           })}</h2>
 
           <h3>Preview:</h3>
