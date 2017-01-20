@@ -1,13 +1,13 @@
 var fs = require('fs')
 
-// // Require the client
-// var Clarifai = require('clarifai')
+// Require the client
+var Clarifai = require('clarifai')
 
-// // instantiate a new Clarifai app passing in your clientId and clientSecret
-// var app = new Clarifai.App(
-//   'T1yVBDD72ivYXvG5z9vRAOgVO6oTNe9GqrxOa_7a',
-//   'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc'
-// )
+// instantiate a new Clarifai app passing in your clientId and clientSecret
+var app = new Clarifai.App(
+  'T1yVBDD72ivYXvG5z9vRAOgVO6oTNe9GqrxOa_7a',
+  'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc'
+)
 
 /*// You can also use the client directly in your browser:
 <script type="text/javascript" src="https://sdk.clarifai.com/js/clarifai-latest.js"></script>
@@ -18,27 +18,35 @@ var fs = require('fs')
   );
 </script>
 */
+const list = ['http://a9.vietbao.vn/images/vn901/the-gioi/11173656-3.jpg', 'http://rowhousenest.com/wp-content/uploads/2015/10/let-love-grow-with-succulents.jpg', 'https://s-media-cache-ak0.pinimg.com/736x/32/3f/a0/323fa07a09bb272ac9dbeb135778ed3f.jpg']
 
-// predict the contents of an image by passing in a url
-/*app.models.predict(Clarifai.GENERAL_MODEL, 'https://samples.clarifai.com/metro-north.jpg').then(
-  function(response) {
+list.forEach(function(url){
 
-    const predictions = response.outputs[0].data.concepts
-    let tags = []
+    // predict the contents of an image by passing in a url
+  app.models.predict(Clarifai.GENERAL_MODEL, url)
+  .then(
+    function(response) {
 
-    predictions.forEach(function(guess){
-      if (guess.value > 0.85){ tags.push(guess.name) }
-    })
+      const predictions = response.outputs[0].data.concepts
+      let tags = []
 
-    // const data = response.outputs[0].data.concepts.slice(0, 5)
-    // console.log('predictions" ', predictions)
-    console.log(tags);
-  },
-  function(err) {
-    console.error(err);
-  }
-);*/
-var vangogh = './vangogh.jpg'
+      predictions.forEach(function(guess){
+        if (guess.value > 0.85){ tags.push(guess.name) }
+      })
+
+      // const data = response.outputs[0].data.concepts.slice(0, 5)
+      // console.log('predictions" ', predictions)
+      console.log(tags);
+    },
+    function(err) {
+      console.error(err);
+    }
+  );
+
+})
+
+
+/*var vangogh = './vangogh.jpg'
 var base64Image;
 
 // fs.readFile(vangogh, (err, data) => {
@@ -76,3 +84,4 @@ app.models.predict(Clarifai.GENERAL_MODEL, {base64: base64Image}).then(
   }
 );
 
+*/

@@ -31096,7 +31096,7 @@
 	        files: e.target.files
 	      });
 	      var concepts = void 0;
-	      console.log('added picture', this.state);
+	      // console.log('added picture', this.state)
 	
 	      var files = e.target.files,
 	          file;
@@ -31131,10 +31131,12 @@
 	
 	              app.models.predict(Clarifai.GENERAL_MODEL, imgBytes).then(function (response) {
 	                var predictions = response.outputs[0].data.concepts;
+	                console.log('why doesn\'t this print ', predictions);
+	
 	                var tags = [];
 	
 	                predictions.forEach(function (guess) {
-	                  if (guess.value > 0.85) {
+	                  if (guess.value > 0.85 && guess.name !== 'no person') {
 	                    tags.push(guess.name);
 	                  }
 	                });
@@ -32589,7 +32591,7 @@
 /* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license

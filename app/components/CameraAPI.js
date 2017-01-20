@@ -29,7 +29,7 @@ export class cameraAPI extends React.Component {
       files: e.target.files,
     })
     let concepts;
-    console.log('added picture', this.state)
+    // console.log('added picture', this.state)
 
     var files = e.target.files,
         file;
@@ -62,10 +62,14 @@ export class cameraAPI extends React.Component {
           .then(
             function(response) {
               const predictions = response.outputs[0].data.concepts
-              let tags = []
+              console.log('why doesn\'t this print ', predictions)
+
+              let tags = [];
 
               predictions.forEach(function(guess){
-                if (guess.value > 0.85){ tags.push(guess.name) }
+                if (guess.value > 0.85 && guess.name !== 'no person'){
+                  tags.push(guess.name)
+                }
               })
 
               console.log('setting the state with ', tags)
@@ -120,7 +124,7 @@ export class cameraAPI extends React.Component {
           </p>
           <h2>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
             return (
-                    <div>{tag}</div>)
+              <div>{tag}</div>)
           })}</h2>
 
           <h3>Preview:</h3>

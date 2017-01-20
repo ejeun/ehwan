@@ -2,11 +2,13 @@
 /* eslint-disable global-require */
 
 const chalk = require('chalk')
-const express = require("express")
-const volleyball = require("volleyball")
+const express = require('express')
+const volleyball = require('volleyball')
 const bodyParser = require('body-parser')
 const path = require('path')
 // const socketio = require('socket.io')
+
+const startDb = require('../db')
 
 const app = express()
 
@@ -27,7 +29,7 @@ app.use(bodyParser.json()) // would be for AJAX requests
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
 // Serve our api
-// app.use('/api', require('./api'))
+app.use('/api', require('./api'))
 
 // Requires in ./db/index.js -- which returns a promise that represents
 // sequelize syncing its models to the postgreSQL database.
@@ -37,7 +39,6 @@ app.use(express.static(path.join(__dirname, '..', 'public')))
 app.get('/*', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')))
 
 const startServer = function () {
-
   const PORT = process.env.PORT || 8000;
   app.listen(PORT, function () {
     // console.log(chalk.magenta(`--- Started HTTP Server for ${pkg.name} ---`))
@@ -45,14 +46,11 @@ const startServer = function () {
     });
 }
 
-startServer()
-
-// startDb
-// .then(createApplication)
-// .then(startServer)
-// .catch(function (err) {
-//     console.error(chalk.red(err.stack));
-//     process.exit(1);
-// });
+startDb
+.then(startServer)
+.catch(function (err) {
+  console.error(chalk.red(err.stack));
+  process.exit(1);
+});
 
 module.exports = app

@@ -1,7 +1,10 @@
-'use strict';
+'use strict'
 
 // Require our models. Running each module registers the model into sequelize
 
-const Clarifai = require('./clarifai');
+const Pet = require('./pet')
+const Mail = require('./mail')
 
-module.exports = {Clarifai}
+Mail.belongsTo(Pet)
+
+module.exports = {Pet, Mail}
