@@ -28557,7 +28557,7 @@
 	
 	var _redux = __webpack_require__(242);
 	
-	var _reducers = __webpack_require__(264);
+	var _reducers = __webpack_require__(339);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
@@ -28576,24 +28576,7 @@
 	exports.default = store;
 
 /***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _redux = __webpack_require__(242);
-	
-	var rootReducer = (0, _redux.combineReducers)({
-	  pet: __webpack_require__(337).default
-	});
-	
-	exports.default = rootReducer;
-
-/***/ },
+/* 264 */,
 /* 265 */,
 /* 266 */
 /***/ function(module, exports, __webpack_require__) {
@@ -31145,7 +31128,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'points' },
-	          this.props.pet.points ? _react2.default.createElement(
+	          this.props.pet.name ? _react2.default.createElement(
 	            'span',
 	            null,
 	            'rltnship depth: ',
@@ -31204,6 +31187,8 @@
 	
 	var _reactRedux = __webpack_require__(233);
 	
+	var _reducers = __webpack_require__(339);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31230,7 +31215,6 @@
 	    _this.state = {
 	      files: {},
 	      imgURL: '',
-	      tags: [],
 	      error: ''
 	    };
 	    _this.handleChange = _this.handleChange.bind(_this);
@@ -31243,11 +31227,10 @@
 	      var _this2 = this;
 	
 	      console.log(this.state);
-	
 	      this.setState({
 	        files: e.target.files
 	      });
-	      var concepts = void 0;
+	      // let concepts;
 	      // console.log('added picture', this.state)
 	
 	      var files = e.target.files,
@@ -31297,11 +31280,10 @@
 	                });
 	
 	                console.log('setting the state with ', tags);
+	                console.log('this: ', _this2);
+	                console.dir('the send function ', _this2.props.send);
 	
-	                this.setState({
-	                  imgURL: URL.createObjectURL(file),
-	                  tags: concepts
-	                });
+	                // this.props.send(this.state.imgURL, tags, this.state.petId)
 	              }, function (err) {
 	                console.error(err);
 	              });
@@ -31395,10 +31377,17 @@
 	/* ----- CONTAINER ----- */
 	
 	var stateToProps = function stateToProps(state) {
-	  return {};
+	  return {
+	    petId: state.pet.id
+	  };
 	};
+	
 	var dispatchToProps = function dispatchToProps(dispatch) {
-	  return {};
+	  return {
+	    send: function send(url, tags, petId) {
+	      dispatch((0, _reducers.sendMail)({ url: url, tags: tags, petId: petId }));
+	    }
+	  };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(cameraAPI);
@@ -35790,98 +35779,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Buy);
 
 /***/ },
-/* 337 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.newPet = exports.selectPet = undefined;
-	
-	var _axios = __webpack_require__(266);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _reactRouter = __webpack_require__(32);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* ------------       REDUCER     ------------------ */
-	
-	var iState = {
-	  pet: {}
-	};
-	
-	var reducer = function reducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : iState;
-	  var action = arguments[1];
-	
-	
-	  var newState = Object.assign({}, state);
-	
-	  switch (action.type) {
-	    case SELECT_PET:
-	      newState.pet = action.pet;
-	      break;
-	
-	    // case SELECT_PET:
-	    // newState.pet = action.pet
-	    // break;
-	
-	    default:
-	      return state;
-	  }
-	
-	  return newState;
-	};
-	
-	/* -----------------    ACTIONS     ------------------ */
-	
-	var SELECT_PET = 'SELECT_PET';
-	
-	/* ------------   ACTION CREATORS     ------------------ */
-	
-	var selectPet = exports.selectPet = function selectPet(pet) {
-	  return {
-	    type: SELECT_PET, pet: pet
-	  };
-	};
-	
-	/* ------------       DISPATCHERS     ------------------ */
-	
-	var newPet = exports.newPet = function newPet(kind, name) {
-	  return function (dispatch) {
-	    return _axios2.default.post('/api/pets/', { kind: kind, name: name }).then(function (pet) {
-	      dispatch(selectPet(pet));
-	    }).catch(function (err) {
-	      return console.err(err);
-	    });
-	  };
-	};
-	
-	// export const logout = () =>
-	//   dispatch =>
-	//     axios.post('/api/auth/logout')
-	//       .then(() => {
-	//             browserHistory.push('/')
-	//             dispatch(whoami())
-	//         })
-	//       .catch(() => dispatch(whoami()))
-	
-	// export const whoami = () =>
-	//   dispatch =>
-	//     axios.get('/api/auth/whoami')
-	//       .then(response => {
-	//         const user = response.data
-	//         dispatch(SELECT_PET(user))
-	//       })
-	//       .catch(failed => dispatch(SELECT_PET(null)))
-	
-	exports.default = reducer;
-
-/***/ },
+/* 337 */,
 /* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35896,7 +35794,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _pet = __webpack_require__(337);
+	var _reducers = __webpack_require__(339);
 	
 	var _reactRedux = __webpack_require__(233);
 	
@@ -35908,9 +35806,7 @@
 	    'form',
 	    { onSubmit: function onSubmit(evt) {
 	        evt.preventDefault();
-	        console.log('pressed! with ', evt.target.kind.value);
-	        console.dir(_pet.newPet);
-	        (0, _pet.newPet)(evt.target.kind.value, evt.target.name.value);
+	        props.createPet(evt.target.kind.value, evt.target.name.value);
 	      } },
 	    'what kind of friend are you looking for?',
 	    _react2.default.createElement('br', null),
@@ -35927,9 +35823,119 @@
 	  );
 	};
 	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+	  return {
+	    createPet: function createPet(kind, name) {
+	      dispatch((0, _reducers.newPet)({ kind: kind, name: name }));
+	    }
+	  };
+	};
+	
 	exports.default = (0, _reactRedux.connect)(function (state) {
 	  return {};
-	}, { newPet: _pet.newPet })(New);
+	}, dispatchToProps)(New);
+
+/***/ },
+/* 339 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.sendMail = exports.newPet = exports.newMail = exports.selectPet = undefined;
+	
+	var _axios = __webpack_require__(266);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _reactRouter = __webpack_require__(32);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* ------------       REDUCER     ------------------ */
+	
+	var iState = {
+	  pet: {},
+	  newMail: {},
+	  allMail: []
+	};
+	
+	var reducer = function reducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : iState;
+	  var action = arguments[1];
+	
+	
+	  var newState = Object.assign({}, state);
+	
+	  switch (action.type) {
+	    case SELECT_PET:
+	      newState.pet = action.pet;
+	      break;
+	
+	    case NEW_MAIL:
+	      newState.newMail = action.mail;
+	      break;
+	
+	    default:
+	      return state;
+	  }
+	
+	  return newState;
+	};
+	
+	/* -----------------    ACTIONS     ------------------ */
+	
+	var SELECT_PET = 'SELECT_PET';
+	var NEW_MAIL = 'NEW_MAIL';
+	
+	/* ------------   ACTION CREATORS     ------------------ */
+	
+	var selectPet = exports.selectPet = function selectPet(pet) {
+	  return {
+	    type: SELECT_PET, pet: pet
+	  };
+	};
+	
+	var newMail = exports.newMail = function newMail(mail) {
+	  return {
+	    type: NEW_MAIL, mail: mail
+	  };
+	};
+	
+	/* ------------       DISPATCHERS     ------------------ */
+	
+	var newPet = exports.newPet = function newPet(pet) {
+	  return function (dispatch) {
+	    return _axios2.default.post('/api/pets/', pet).then(function (res) {
+	      dispatch(selectPet(res.data));
+	    }).catch(function (err) {
+	      return console.err(err);
+	    });
+	  };
+	};
+	
+	var sendMail = exports.sendMail = function sendMail(mail) {
+	  return function (dispatch) {
+	    return _axios2.default.post('/api/mail/', mail).then(function (res) {
+	      dispatch(newMail(res.data));
+	    }).catch(function (err) {
+	      return console.err(err);
+	    });
+	  };
+	};
+	
+	// export const whoami = () =>
+	//   dispatch =>
+	//     axios.get('/api/auth/whoami')
+	//       .then(response => {
+	//         const user = response.data
+	//         dispatch(SELECT_PET(user))
+	//       })
+	//       .catch(failed => dispatch(SELECT_PET(null)))
+	
+	exports.default = reducer;
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import {sendMail} from '../reducers.js'
+
 // Require the client
 var Clarifai = require('clarifai')
 // instantiate a new Clarifai app passing in your clientId and clientSecret
@@ -18,7 +20,6 @@ export class cameraAPI extends React.Component {
     this.state = {
       files: {},
       imgURL: '',
-      tags: [],
       error: '',
     }
     this.handleChange = this.handleChange.bind(this)
@@ -26,11 +27,10 @@ export class cameraAPI extends React.Component {
 
   handleChange(e){
     console.log(this.state)
-
     this.setState({
       files: e.target.files,
     })
-    let concepts;
+    // let concepts;
     // console.log('added picture', this.state)
 
     var files = e.target.files,
@@ -55,14 +55,13 @@ export class cameraAPI extends React.Component {
 
         const fileReader = new FileReader()
         fileReader.readAsDataURL(file)
-        fileReader.onload = function(){
+        fileReader.onload = () => {
 
           let imgBytes = fileReader.result.split(',')[1]
           // console.log(imgBytes)
 
           app.models.predict(Clarifai.GENERAL_MODEL, imgBytes)
-          .then(
-            function(response) {
+          .then(response => {
               const predictions = response.outputs[0].data.concepts
 
               let tags = [];
@@ -81,11 +80,11 @@ export class cameraAPI extends React.Component {
               })
 
               console.log('setting the state with ', tags)
+              console.log('this: ', this)
+              console.dir('the send function ', this.props.send)
 
-              this.setState({
-                imgURL: URL.createObjectURL(file),
-                tags: concepts,
-              })
+              // this.props.send(this.state.imgURL, tags, this.state.petId)
+
             },
             function(err) {
               console.error(err);
@@ -157,7 +156,16 @@ export class cameraAPI extends React.Component {
 
 /* ----- CONTAINER ----- */
 
-const stateToProps = (state) => {return {}}
-const dispatchToProps = (dispatch) => {return {}}
+const stateToProps = (state) => {
+  return {
+    petId: state.pet.id,
+}}
+
+const dispatchToProps = (dispatch) => {
+  return {
+    send: (url, tags, petId) => {
+      dispatch(sendMail({url, tags, petId}))
+    }
+  }}
 
 export default connect(stateToProps, dispatchToProps)(cameraAPI)

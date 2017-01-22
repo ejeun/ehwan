@@ -1,16 +1,14 @@
 import React from 'react'
 
-import {newPet} from '../reducers/pet'
+import {newPet} from '../reducers.js'
 import {connect} from 'react-redux'
 
 export const New = (props) => {
 
-return  (
+return (
   <form onSubmit={evt => {
     evt.preventDefault()
-    console.log('pressed! with ', evt.target.kind.value)
-    console.dir(newPet)
-    newPet(
+    props.createPet(
       evt.target.kind.value,
       evt.target.name.value
     )
@@ -24,5 +22,14 @@ return  (
   </form>
 )}
 
+const dispatchToProps = (dispatch) => {
+  return {
+    createPet: (kind, name) => {
+      dispatch(newPet({kind, name}))
+    }
+  }
+}
 
-export default connect(state => ({}), {newPet})(New)
+export default connect(
+                        state => ({}),
+                        dispatchToProps)(New)

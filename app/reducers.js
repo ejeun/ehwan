@@ -5,6 +5,8 @@ import {browserHistory} from 'react-router'
 
 const iState = {
   pet: {},
+  newMail: {},
+  allMail: [],
 }
 
 const reducer = (state = iState, action) => {
@@ -16,9 +18,9 @@ const reducer = (state = iState, action) => {
     newState.pet = action.pet
     break;
 
-    // case SELECT_PET:
-    // newState.pet = action.pet
-    // break;
+    case NEW_MAIL:
+    newState.newMail = action.mail
+    break;
 
     default:
     return state
@@ -30,6 +32,7 @@ const reducer = (state = iState, action) => {
 /* -----------------    ACTIONS     ------------------ */
 
 const SELECT_PET = 'SELECT_PET'
+const NEW_MAIL = 'NEW_MAIL'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -37,24 +40,27 @@ export const selectPet = pet => ({
   type: SELECT_PET, pet
 })
 
+export const newMail = mail => ({
+  type: NEW_MAIL, mail
+})
+
 /* ------------       DISPATCHERS     ------------------ */
 
-export const newPet = (kind, name) =>
+export const newPet = pet =>
   dispatch =>
-    axios.post('/api/pets/', {kind, name})
-      .then((pet) => {
-        dispatch(selectPet(pet))
+    axios.post('/api/pets/', pet)
+      .then((res) => {
+        dispatch(selectPet(res.data))
       })
       .catch((err) => console.err(err))
 
-// export const logout = () =>
-//   dispatch =>
-//     axios.post('/api/auth/logout')
-//       .then(() => {
-//             browserHistory.push('/')
-//             dispatch(whoami())
-//         })
-//       .catch(() => dispatch(whoami()))
+export const sendMail = mail =>
+  dispatch =>
+    axios.post('/api/mail/', mail)
+      .then((res) => {
+        dispatch(newMail(res.data))
+      })
+      .catch((err) => console.err(err))
 
 // export const whoami = () =>
 //   dispatch =>

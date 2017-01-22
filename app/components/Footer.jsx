@@ -21,7 +21,7 @@ export class Footer extends React.Component {
         </div>
 
         <div className="points">
-          {this.props.pet.points ?
+          {this.props.pet.name ?
             <span>rltnship depth: {this.props.pet.points}</span> :
             <span> rltnship depth: </span>}
         </div>

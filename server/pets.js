@@ -6,15 +6,17 @@ const Mail = db.model('mails')
 
 module.exports = require('express').Router()
 
-  .get('/', (req, res, next) =>
+  .get('/', (req, res, next) => {
+    console.log('ur looking at all the cuties')
     Pet.findAll()
     .then(pets => res.json(pets))
-    .catch(next))
+    .catch(next)
+  })
 
   .post('/', (req, res, next) => {
     console.log('routes been hit with ', req.body)
     Pet.create(req.body)
-    .then(pet => res.status(201).json(pet))
+    .then(pet => res.json(pet))
     .catch(next)
   })
 
