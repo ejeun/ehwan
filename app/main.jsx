@@ -15,10 +15,10 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRedirect to="/submit" />
-      <Route path="/submit" component={CameraAPI} />
-      <Route path="/history" component={History} />
-      <Route path="/buy" component={Buy} />
+        <IndexRedirect to="/play" />
+        <Route path="/play" component={CameraAPI} />
+        <Route path="/history" component={History} />
+        <Route path="/buy" component={Buy} />
       </Route>
     </Router>
   </Provider>,

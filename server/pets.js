@@ -11,10 +11,12 @@ module.exports = require('express').Router()
     .then(pets => res.json(pets))
     .catch(next))
 
-  .post('/', (req, res, next) =>
+  .post('/', (req, res, next) => {
+    console.log('routes been hit with ', req.body)
     Pet.create(req.body)
     .then(pet => res.status(201).json(pet))
-    .catch(next))
+    .catch(next)
+  })
 
   .get('/:id', (req, res, next) =>
     Pet.findById(req.params.id)

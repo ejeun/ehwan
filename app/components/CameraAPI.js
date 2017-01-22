@@ -9,6 +9,8 @@ var app = new Clarifai.App(
   'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc'
 )
 
+/* ----- COMPONENT ----- */
+
 export class cameraAPI extends React.Component {
 
   constructor(props){
@@ -62,14 +64,20 @@ export class cameraAPI extends React.Component {
           .then(
             function(response) {
               const predictions = response.outputs[0].data.concepts
-              console.log('why doesn\'t this print ', predictions)
 
               let tags = [];
 
               predictions.forEach(function(guess){
-                if (guess.value > 0.85 && guess.name !== 'no person'){
+                if (guess.value > 0.85) {
                   tags.push(guess.name)
                 }
+              })
+
+              tags = tags.filter(function(word){
+                return (
+                  word !== 'no person'
+                  && word !== 'one'
+                )
               })
 
               console.log('setting the state with ', tags)
@@ -112,7 +120,7 @@ export class cameraAPI extends React.Component {
       <div className="container">
 
         <section className="main-content">
-          <p>choose to take a picture with your device's camera (choosing local files supported too) and a preview will be shown </p>
+          <p>show your pet some love by fulfilling its requests through the cybernet</p>
 
           <p>
             <input
@@ -122,18 +130,23 @@ export class cameraAPI extends React.Component {
               onChange={this.handleChange}
             ></input>
           </p>
-          <span>Tags: {this.state.tags && this.state.tags.forEach(function(tag){
+
+          <div>last sent: </div>
+          <div>
+            <img
+              id="show-picture"
+              className="img-responsive"
+              src={this.state.imgURL}
+              alt=""
+              height="300"
+              width="300"
+              ></img>
+          </div>
+
+          <span>what the pet recieved: {this.state.tags && this.state.tags.forEach(function(tag){
             return (
               <div>{tag}</div>)
           })}</span>
-
-          <p>Preview:
-            <img
-              src={this.state.imgURL}
-              alt=""
-              id="show-picture">
-            </img>
-          </p>
 
           <p>{this.state.error}</p>
         </section>
@@ -141,6 +154,8 @@ export class cameraAPI extends React.Component {
     )
   }
 }
+
+/* ----- CONTAINER ----- */
 
 const stateToProps = (state) => {return {}}
 const dispatchToProps = (dispatch) => {return {}}

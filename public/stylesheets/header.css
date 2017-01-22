@@ -1,0 +1,5 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end; }
+  .navbar a {
+    margin: 10px; }
