@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import {sendMail, pointsUp} from '../reducers.js'
+import Footer from './Footer'
 import keys from '../keys.js'
 
 // Require the client
@@ -28,7 +29,7 @@ export class cameraAPI extends React.Component {
   }
 
   handleChange(e){
-
+    // console.log('change')
     this.setState({
       files: e.target.files,
     })
@@ -41,7 +42,7 @@ export class cameraAPI extends React.Component {
       try {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
-
+        // console.log(file)
         this.setState({
           imgURL: URL.createObjectURL(file)
         })
@@ -105,38 +106,36 @@ export class cameraAPI extends React.Component {
       <div className="container">
 
         <section className="main-content">
-          <p>adopt a pet and care for it by snapping photos for it using your phone's camera</p>
+          <p className="mdc-typography--display1">adopt a pet and care for it by sending it photos through your camera</p>
 
-          <p>
-            <input
-              type="file"
-              id="take-picture"
-              accept="image/*"
-              onChange={this.handleChange}
-            ></input>
-          </p>
+          <input
+            type="file"
+            id="take-picture"
+            accept="image/*"
+            onChange={this.handleChange}
+          ></input>
 
           {this.props.pet.name ?
-            <div>last sent to {this.props.pet.name}: </div> :
-            <div>fill out the form below</div>}
+            <span className="mdc-typography--body1">last sent to {this.props.pet.name}: </span> :
+            <span>you don't have a pet yet! click the x below to adopt one</span>}
           <div>
             <img
               id="show-picture"
               className="img-responsive"
               src={this.state.imgURL}
-              alt=""
-              height="300"
+              height="auto"
               width="300"
               ></img>
           </div>
 
-          <span> {this.props.newMail.tags && this.props.newMail.tags.map(function(tag, i){
+          <span className="mdc-typography--body1"> {this.props.newMail.tags && this.props.newMail.tags.map(function(tag, i){
             return (
               <div className="tags" key={i}>{tag}</div>)
           })}</span>
 
           <p>{this.state.error}</p>
         </section>
+        <Footer />
       </div>
     )
   }

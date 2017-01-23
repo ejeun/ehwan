@@ -64,9 +64,13 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _CameraAPI = __webpack_require__(301);
+	var _CameraAPI = __webpack_require__(300);
 	
 	var _CameraAPI2 = _interopRequireDefault(_CameraAPI);
+	
+	var _New = __webpack_require__(299);
+	
+	var _New2 = _interopRequireDefault(_New);
 	
 	var _reducers = __webpack_require__(264);
 	
@@ -85,7 +89,8 @@
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: '/', component: _App2.default, onEnter: load },
-	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/play' }),
+	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/new' }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/new', component: _New2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/play', component: _CameraAPI2.default })
 	    )
 	  )
@@ -31073,8 +31078,7 @@
 	    'div',
 	    { id: 'main', className: 'container' },
 	    _react2.default.createElement(_Header2.default, null),
-	    props.children && _react2.default.cloneElement(props.children, props),
-	    _react2.default.createElement(_Footer2.default, null)
+	    props.children && _react2.default.cloneElement(props.children, props)
 	  );
 	};
 	
@@ -31086,9 +31090,9 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Footer = __webpack_require__(299);
+	var _New = __webpack_require__(299);
 	
-	var _Footer2 = _interopRequireDefault(_Footer);
+	var _New2 = _interopRequireDefault(_New);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31175,139 +31179,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Footer = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(233);
-	
-	var _New = __webpack_require__(300);
-	
-	var _New2 = _interopRequireDefault(_New);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	/* ----- COMPONENT ----- */
-	
-	var Footer = exports.Footer = function (_React$Component) {
-	  _inherits(Footer, _React$Component);
-	
-	  function Footer(props) {
-	    _classCallCheck(this, Footer);
-	
-	    var _this = _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, props));
-	
-	    _this.state = {
-	      points: 0
-	    };
-	
-	    _this.needs = _this.needs.bind(_this);
-	    // this.pointsup = this.pointsup.bind(this)
-	    return _this;
-	  }
-	
-	  _createClass(Footer, [{
-	    key: 'needs',
-	    value: function needs(points) {
-	
-	      if (points < 12 && points % 2) return 'food';else if (!(points % 3)) return 'company';else if (!(points % 13)) return 'love';else if (!(points % 10)) return 'warmth';else if (!(points % 4)) return 'fresh air';else if (!(points % 2)) return 'something colorful';else if (!(points % 5)) return 'a flash from the 90s';else if (!(points % 7)) return 'a romantic night';else return 'water';
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'container footer' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'ascii' },
-	          this.props.pet.kind ? _react2.default.createElement('img', { className: 'pixelart', src: './' + this.props.pet.kind + '.gif', height: 'auto',
-	            width: '274.83' }) : _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	              'span',
-	              null,
-	              'make a new pet'
-	            ),
-	            _react2.default.createElement('br', null),
-	            _react2.default.createElement(_New2.default, null)
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'points' },
-	          this.props.pet.name ? _react2.default.createElement(
-	            'span',
-	            null,
-	            'rltnship depth: ',
-	            this.props.pet.points
-	          ) : _react2.default.createElement(
-	            'span',
-	            null,
-	            ' rltnship depth: '
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'request' },
-	          this.props.pet.points ? _react2.default.createElement(
-	            'span',
-	            null,
-	            'current request: ',
-	            this.needs(this.props.pet.points)
-	          ) : _react2.default.createElement(
-	            'span',
-	            null,
-	            'current request: '
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Footer;
-	}(_react2.default.Component);
-	
-	/* ----- CONTAINER ----- */
-	
-	var stateToProps = function stateToProps(state) {
-	  return {
-	    pet: state.pet,
-	    newMail: state.newMail,
-	    img: state.image
-	  };
-	};
-	var dispatchToProps = function dispatchToProps(dispatch) {
-	  return {};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Footer);
-
-/***/ },
-/* 300 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	exports.New = undefined;
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(32);
 	
 	var _reducers = __webpack_require__(264);
 	
@@ -31322,35 +31200,40 @@
 	    { className: 'new', onSubmit: function onSubmit(evt) {
 	        evt.preventDefault();
 	        props.createPet(evt.target.kind.value, evt.target.name.value);
+	        _reactRouter.browserHistory.push('/play');
 	      } },
 	    _react2.default.createElement(
 	      'span',
-	      null,
+	      { className: 'mdc-typography--display1' },
 	      'what kind of friend are you looking for?'
 	    ),
 	    _react2.default.createElement('br', null),
 	    _react2.default.createElement('input', { type: 'radio', name: 'kind', value: 'succulent' }),
 	    _react2.default.createElement(
 	      'span',
-	      null,
+	      { className: 'mdc-typography--headline' },
 	      'succulent'
 	    ),
 	    _react2.default.createElement('br', null),
 	    _react2.default.createElement('input', { type: 'radio', name: 'kind', value: 'cat' }),
 	    _react2.default.createElement(
 	      'span',
-	      null,
+	      { className: 'mdc-typography--headline' },
 	      'cat'
 	    ),
 	    _react2.default.createElement('br', null),
 	    _react2.default.createElement(
 	      'span',
-	      null,
+	      { className: 'mdc-typography--display1' },
 	      'give your new friend a name'
 	    ),
 	    _react2.default.createElement('br', null),
 	    _react2.default.createElement('input', { name: 'name', type: 'name' }),
-	    _react2.default.createElement('input', { type: 'submit', value: 'adopt' })
+	    _react2.default.createElement(
+	      'button',
+	      { className: 'mdc-button', type: 'submit', value: 'adopt' },
+	      'adopt'
+	    )
 	  );
 	};
 	
@@ -31367,7 +31250,7 @@
 	}, dispatchToProps)(New);
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31386,6 +31269,10 @@
 	var _reactRedux = __webpack_require__(233);
 	
 	var _reducers = __webpack_require__(264);
+	
+	var _Footer = __webpack_require__(301);
+	
+	var _Footer2 = _interopRequireDefault(_Footer);
 	
 	var _keys = __webpack_require__(302);
 	
@@ -31429,6 +31316,7 @@
 	    value: function handleChange(e) {
 	      var _this2 = this;
 	
+	      // console.log('change')
 	      this.setState({
 	        files: e.target.files
 	      });
@@ -31444,7 +31332,7 @@
 	          (function () {
 	            // Get window.URL object
 	            URL = window.URL || window.webkitURL;
-	
+	            // console.log(file)
 	
 	            _this2.setState({
 	              imgURL: URL.createObjectURL(file)
@@ -31507,29 +31395,25 @@
 	          { className: 'main-content' },
 	          _react2.default.createElement(
 	            'p',
-	            null,
-	            'adopt a pet and care for it by snapping photos for it using your phone\'s camera'
+	            { className: 'mdc-typography--display1' },
+	            'adopt a pet and care for it by sending it photos through your camera'
 	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement('input', {
-	              type: 'file',
-	              id: 'take-picture',
-	              accept: 'image/*',
-	              onChange: this.handleChange
-	            })
-	          ),
+	          _react2.default.createElement('input', {
+	            type: 'file',
+	            id: 'take-picture',
+	            accept: 'image/*',
+	            onChange: this.handleChange
+	          }),
 	          this.props.pet.name ? _react2.default.createElement(
-	            'div',
-	            null,
+	            'span',
+	            { className: 'mdc-typography--body1' },
 	            'last sent to ',
 	            this.props.pet.name,
 	            ': '
 	          ) : _react2.default.createElement(
-	            'div',
+	            'span',
 	            null,
-	            'fill out the form below'
+	            'you don\'t have a pet yet! click the x below to adopt one'
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -31538,14 +31422,13 @@
 	              id: 'show-picture',
 	              className: 'img-responsive',
 	              src: this.state.imgURL,
-	              alt: '',
-	              height: '300',
+	              height: 'auto',
 	              width: '300'
 	            })
 	          ),
 	          _react2.default.createElement(
 	            'span',
-	            null,
+	            { className: 'mdc-typography--body1' },
 	            ' ',
 	            this.props.newMail.tags && this.props.newMail.tags.map(function (tag, i) {
 	              return _react2.default.createElement(
@@ -31560,7 +31443,8 @@
 	            null,
 	            this.state.error
 	          )
-	        )
+	        ),
+	        _react2.default.createElement(_Footer2.default, null)
 	      );
 	    }
 	  }]);
@@ -31588,6 +31472,133 @@
 	};
 	
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(cameraAPI);
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Footer = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(233);
+	
+	var _New = __webpack_require__(299);
+	
+	var _New2 = _interopRequireDefault(_New);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	/* ----- COMPONENT ----- */
+	
+	var Footer = exports.Footer = function (_React$Component) {
+	  _inherits(Footer, _React$Component);
+	
+	  function Footer(props) {
+	    _classCallCheck(this, Footer);
+	
+	    var _this = _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this, props));
+	
+	    _this.state = {
+	      points: 0
+	    };
+	
+	    _this.needs = _this.needs.bind(_this);
+	    // this.pointsup = this.pointsup.bind(this)
+	    return _this;
+	  }
+	
+	  _createClass(Footer, [{
+	    key: 'needs',
+	    value: function needs(points) {
+	
+	      if (points < 12 && points % 2) return 'food';else if (!(points % 3)) return 'company';else if (!(points % 13)) return 'love';else if (!(points % 10)) return 'warmth';else if (!(points % 4)) return 'fresh air';else if (!(points % 2)) return 'something colorful';else if (!(points % 5)) return 'a flash from the 90s';else if (!(points % 7)) return 'a romantic night';else return 'water';
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container footer' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ascii' },
+	          this.props.pet.kind ? _react2.default.createElement('img', { className: 'pixelart', src: './' + this.props.pet.kind + '.gif', height: 'auto',
+	            width: '274.83' }) : _react2.default.createElement(
+	            'a',
+	            { href: '/' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'mdc-typography--body2' },
+	              'x'
+	            ),
+	            _react2.default.createElement('br', null)
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'points' },
+	          this.props.pet.name ? _react2.default.createElement(
+	            'span',
+	            { className: 'mdc-typography--subheading' },
+	            'rltnship depth: ',
+	            this.props.pet.points
+	          ) : _react2.default.createElement(
+	            'span',
+	            { className: 'mdc-typography--subheading' },
+	            ' rltnship depth: '
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'request' },
+	          this.props.pet.name ? _react2.default.createElement(
+	            'span',
+	            { className: 'mdc-typography--subheading' },
+	            'needs: ',
+	            this.needs(this.props.pet.points)
+	          ) : _react2.default.createElement(
+	            'span',
+	            { className: 'mdc-typography--subheading' },
+	            'needs: '
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Footer;
+	}(_react2.default.Component);
+	
+	/* ----- CONTAINER ----- */
+	
+	var stateToProps = function stateToProps(state) {
+	  return {
+	    pet: state.pet,
+	    newMail: state.newMail,
+	    img: state.image
+	  };
+	};
+	var dispatchToProps = function dispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Footer);
 
 /***/ },
 /* 302 */
@@ -32950,7 +32961,7 @@
 /* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license

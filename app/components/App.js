@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Header from './Header'
-import Footer from './Footer'
+import Form from './New'
 
 /* ----- COMPONENT ----- */
 
@@ -13,7 +13,6 @@ export default function(props) {
       {
         props.children && React.cloneElement(props.children, props)
       }
-      <Footer />
     </div>
   )
 }

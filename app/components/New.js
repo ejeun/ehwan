@@ -1,4 +1,5 @@
 import React from 'react'
+import {browserHistory} from 'react-router'
 
 import {newPet} from '../reducers.js'
 import {connect} from 'react-redux'
@@ -12,13 +13,14 @@ return (
       evt.target.kind.value,
       evt.target.name.value
     )
+    browserHistory.push('/play')
   } }>
-    <span>what kind of friend are you looking for?</span><br/>
-    <input type="radio" name="kind" value="succulent" /><span>succulent</span><br/>
-    <input type="radio" name="kind" value="cat" /><span>cat</span><br/>
-    <span>give your new friend a name</span><br/>
+    <span className="mdc-typography--display1">what kind of friend are you looking for?</span><br/>
+    <input type="radio" name="kind" value="succulent" /><span className="mdc-typography--headline">succulent</span><br/>
+    <input type="radio" name="kind" value="cat" /><span className="mdc-typography--headline">cat</span><br/>
+    <span className="mdc-typography--display1">give your new friend a name</span><br/>
     <input name="name" type="name" />
-    <input type="submit" value="adopt" />
+    <button className="mdc-button" type="submit" value="adopt">adopt</button>
   </form>
 )}
 

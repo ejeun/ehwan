@@ -8,6 +8,7 @@ import store from './store'
 
 import App from './components/App'
 import CameraAPI from './components/CameraAPI'
+import Form from './components/New'
 
 import {newMail} from './reducers.js'
 
@@ -19,7 +20,8 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App} onEnter={load}>
-        <IndexRedirect to="/play" />
+        <IndexRedirect to="/new" />
+        <Route path="/new" component={Form} />
         <Route path="/play" component={CameraAPI} />
       </Route>
     </Router>

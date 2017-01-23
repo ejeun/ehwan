@@ -38,19 +38,19 @@ export class Footer extends React.Component {
           {this.props.pet.kind ?
             <img className="pixelart" src={`./${this.props.pet.kind}.gif`} height="auto"
               width="274.83" ></img> :
-            <div><span>make a new pet</span><br/><Form/></div> }
+            <a href="/"><span className="mdc-typography--body2">x</span><br/></a> }
         </div>
 
         <div className="points">
           {this.props.pet.name ?
-            <span>rltnship depth: {this.props.pet.points}</span> :
-            <span> rltnship depth: </span>}
+            <span className="mdc-typography--subheading">rltnship depth: {this.props.pet.points}</span> :
+            <span className="mdc-typography--subheading"> rltnship depth: </span>}
         </div>
 
         <div className="request">
-          {this.props.pet.points ?
-            <span>current request: {this.needs(this.props.pet.points)}</span>:
-            <span>current request: </span>}
+          {this.props.pet.name ?
+            <span className="mdc-typography--subheading">needs: {this.needs(this.props.pet.points)}</span>:
+            <span className="mdc-typography--subheading">needs: </span>}
         </div>
 
       </div>
