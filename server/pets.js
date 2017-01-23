@@ -25,10 +25,18 @@ module.exports = require('express').Router()
     .then(pet => res.json(pet))
     .catch(next))
 
-  .put('/:id', (req, res, next) =>
-    Pet.update(req.body)
-    .then(updatedPet => res.status(204).send(updatedPet))
-    .catch(next))
+  .put('/:id', (req, res, next) => {
+    console.log(req.params.id, req.body)
+
+    Pet.update(req.body,  {
+      where: {id: req.params.id},
+      returning: true
+    })
+    .then(updated => {
+      // console.log(updated)
+      console.log('updated this ', updated[1])
+      res.send(updated[1][0])})
+    .catch(next)})
 
   .get('/:id/mail', (req, res, next) =>
     Mail.findAll({

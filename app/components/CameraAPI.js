@@ -1,15 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {sendMail} from '../reducers.js'
+import {sendMail, pointsUp} from '../reducers.js'
+import keys from '../keys.js'
 
 // Require the client
 var Clarifai = require('clarifai')
 // instantiate a new Clarifai app passing in your clientId and clientSecret
 var app = new Clarifai.App(
-  'T1yVBDD72ivYXvG5z9vRAOgVO6oTNe9GqrxOa_7a',
-  'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc'
-)
+  keys.CLIENT_ID,
+  keys.CLIENT_SECRET
+);
+// app.getToken();
 
 /* ----- COMPONENT ----- */
 
@@ -26,12 +28,10 @@ export class cameraAPI extends React.Component {
   }
 
   handleChange(e){
-    console.log(this.state)
+
     this.setState({
       files: e.target.files,
     })
-    // let concepts;
-    // console.log('added picture', this.state)
 
     var files = e.target.files,
         file;
@@ -42,13 +42,6 @@ export class cameraAPI extends React.Component {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
 
-        // console.log(this.state)
-
-        // // Revoke ObjectURL after image has loaded
-        // showPicture.onload = function() {
-        //   URL.revokeObjectURL(imgURL);
-        // };
-        // Create ObjectURL
         this.setState({
           imgURL: URL.createObjectURL(file)
         })
@@ -56,7 +49,6 @@ export class cameraAPI extends React.Component {
         const fileReader = new FileReader()
         fileReader.readAsDataURL(file)
         fileReader.onload = () => {
-
           let imgBytes = fileReader.result.split(',')[1]
           // console.log(imgBytes)
 
@@ -67,24 +59,18 @@ export class cameraAPI extends React.Component {
               let tags = [];
 
               predictions.forEach(function(guess){
-                if (guess.value > 0.85) {
+                if (guess.value > 0.85 &&
+                    guess.name !== 'no person'
+                  && guess.name !== 'one') {
                   tags.push(guess.name)
                 }
               })
 
-              tags = tags.filter(function(word){
-                return (
-                  word !== 'no person'
-                  && word !== 'one'
-                )
-              })
+              if (tags.length > 7) {
+                tags.splice(7)
+              }
 
-              console.log('setting the state with ', tags)
-              console.log('this: ', this)
-              console.dir('the send function ', this.props.send)
-
-              // this.props.send(this.state.imgURL, tags, this.state.petId)
-
+              this.props.send(this.state.imgURL, tags, this.props.pet)
             },
             function(err) {
               console.error(err);
@@ -119,7 +105,7 @@ export class cameraAPI extends React.Component {
       <div className="container">
 
         <section className="main-content">
-          <p>show your pet some love by fulfilling its requests through the cybernet</p>
+          <p>adopt a pet and care for it by snapping photos for it using your phone's camera</p>
 
           <p>
             <input
@@ -130,7 +116,9 @@ export class cameraAPI extends React.Component {
             ></input>
           </p>
 
-          <div>last sent: </div>
+          {this.props.pet.name ?
+            <div>last sent to {this.props.pet.name}: </div> :
+            <div>fill out the form below</div>}
           <div>
             <img
               id="show-picture"
@@ -142,9 +130,9 @@ export class cameraAPI extends React.Component {
               ></img>
           </div>
 
-          <span>what the pet recieved: {this.state.tags && this.state.tags.forEach(function(tag){
+          <span> {this.props.newMail.tags && this.props.newMail.tags.map(function(tag, i){
             return (
-              <div>{tag}</div>)
+              <div className="tags" key={i}>{tag}</div>)
           })}</span>
 
           <p>{this.state.error}</p>
@@ -158,14 +146,18 @@ export class cameraAPI extends React.Component {
 
 const stateToProps = (state) => {
   return {
-    petId: state.pet.id,
+    pet: state.pet,
+    newMail: state.newMail,
 }}
 
 const dispatchToProps = (dispatch) => {
   return {
-    send: (url, tags, petId) => {
-      dispatch(sendMail({url, tags, petId}))
+    send: (url, tags, pet) => {
+      let points = pet.points + Math.ceil(Math.random() * 7)
+      dispatch(sendMail({url, tags, petId: pet.id}))
+      dispatch(pointsUp(pet.id, points))
     }
-  }}
+  }
+}
 
 export default connect(stateToProps, dispatchToProps)(cameraAPI)

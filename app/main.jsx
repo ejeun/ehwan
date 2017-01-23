@@ -8,17 +8,19 @@ import store from './store'
 
 import App from './components/App'
 import CameraAPI from './components/CameraAPI'
-import History from './components/History'
-import Buy from './components/Buy'
+
+import {newMail} from './reducers.js'
+
+const load = () => {
+  store.dispatch(newMail({}))
+}
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={App} onEnter={load}>
         <IndexRedirect to="/play" />
         <Route path="/play" component={CameraAPI} />
-        <Route path="/history" component={History} />
-        <Route path="/buy" component={Buy} />
       </Route>
     </Router>
   </Provider>,

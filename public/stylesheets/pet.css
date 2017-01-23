@@ -3,3 +3,6 @@
   justify-content: space-between; }
   .footer div {
     display: inline-block; }
+
+.ascii span {
+  color: red; }

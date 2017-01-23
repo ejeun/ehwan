@@ -6,7 +6,8 @@ import {browserHistory} from 'react-router'
 const iState = {
   pet: {},
   newMail: {},
-  allMail: [],
+  points: {},
+  image: {}
 }
 
 const reducer = (state = iState, action) => {
@@ -16,10 +17,15 @@ const reducer = (state = iState, action) => {
   switch (action.type) {
     case SELECT_PET:
     newState.pet = action.pet
+
     break;
 
     case NEW_MAIL:
     newState.newMail = action.mail
+    break;
+
+    case PTS:
+    newState.points = action.points
     break;
 
     default:
@@ -33,6 +39,8 @@ const reducer = (state = iState, action) => {
 
 const SELECT_PET = 'SELECT_PET'
 const NEW_MAIL = 'NEW_MAIL'
+const PTS = 'PTS'
+
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -62,13 +70,12 @@ export const sendMail = mail =>
       })
       .catch((err) => console.err(err))
 
-// export const whoami = () =>
-//   dispatch =>
-//     axios.get('/api/auth/whoami')
-//       .then(response => {
-//         const user = response.data
-//         dispatch(SELECT_PET(user))
-//       })
-//       .catch(failed => dispatch(SELECT_PET(null)))
+export const pointsUp = (petId, points) =>
+  dispatch =>
+    axios.put(`/api/pets/${petId}`, {points: points})
+      .then(res => {
+        dispatch(selectPet(res.data))
+      })
+      .catch(failed => console.err(err))
 
 export default reducer
